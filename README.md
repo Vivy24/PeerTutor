@@ -1,5 +1,9 @@
 # PeerTutor - Book your tutor now
 
+# Live Web:
+
+    https://peer-tutor-vivy.herokuapp.com
+
 # How To Start:
 
     1. Clone this project
@@ -9,6 +13,7 @@
     5. Run 'cd ..'
     6. Run 'npm run dev'
     7. The website will run on your http://localhost:3000/
+
 # Languages:
 
     1. Front-end: ReactJS
@@ -46,7 +51,6 @@
 ## Super Admin
 
     1. Promote, demote admin
-    
 
 # Showcase:
 
@@ -70,7 +74,6 @@
 ## Tutor Page
 
 ![Tutor-Page](showcase/tutor.png)
-
 
 ## Dashboard Page (For super admin)
 
