@@ -1,0 +1,23 @@
+.navBar {
+  box-shadow: 0 2px 2px -2px rgba(0, 0, 0, 0.2);
+  height: 70px;
+}
+
+.navLink {
+  color: black !important;
+  font-size: 1.25rem;
+}
+
+.navLink:hover {
+  border-bottom: 2px solid red;
+}
+
+@media (max-width: 800px) {
+  .collapeNav {
+    z-index: 10;
+    display: block;
+    background-color: white;
+    box-shadow: 0 2px 2px -2px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+  }
+}

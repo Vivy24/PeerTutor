@@ -1,0 +1,20 @@
+.leftBtn {
+  background-color: red !important;
+  border: 1px solid red !important;
+}
+.rightBtn {
+  background-color: white !important;
+  border: 1px solid red !important;
+  color: red !important;
+}
+
+.leftBtn:hover {
+  background-color: white !important;
+  border: 1px solid red !important;
+  color: red !important;
+}
+.rightBtn:hover {
+  color: white !important;
+  background-color: red !important;
+  border: 1px solid red !important;
+}

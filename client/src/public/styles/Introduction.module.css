@@ -1,0 +1,16 @@
+.introDiv {
+  margin-top: 10vh;
+}
+
+.title h1 {
+  font-size: 4.5rem;
+  color: red;
+}
+
+.title h2 {
+  font-size: 3.75rem;
+}
+
+.introduction p {
+  font-size: 1.25rem;
+}

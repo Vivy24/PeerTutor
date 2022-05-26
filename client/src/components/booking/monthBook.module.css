@@ -1,0 +1,9 @@
+.bookingForm {
+  margin: 0 auto;
+  max-width: 400px;
+}
+
+.bookingForm h3 {
+  margin-top: 1em;
+  text-align: center;
+}
