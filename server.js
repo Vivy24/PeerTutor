@@ -17,7 +17,13 @@ app.use("/api/meetings", require("./server/routes/api/meeting"));
 app.use("/api/tutors", require("./server/routes/api/tutor"));
 app.use("/api/forgetpassword", require("./server/routes/api/resetPassword"));
 app.use("/api/reviews", require("./server/routes/api/review"));
+app.get("/*", function (req, res) {
+  res.sendFile(path.join(__dirname, "/client/build", "index.html"));
+});
 
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build/index.html"));
+});
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client/build")));
 
@@ -30,12 +36,6 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-app.get("/*", function (req, res) {
-  res.sendFile(path.join(__dirname, "/client/build", "index.html"));
-});
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client/build/index.html"));
-});
 
 app.listen(port, () => console.log(`Server starts at ${port}`));
