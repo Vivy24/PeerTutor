@@ -1,9 +1,5 @@
 # PeerTutor - Book your tutor now
 
-# Live Web:
-
-    https://peer-tutor-vivy.herokuapp.com
-
 # How To Start:
 
     1. Clone this project
