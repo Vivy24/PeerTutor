@@ -34,11 +34,6 @@
     "test": "react-scripts test",
     "eject": "react-app-rewired eject"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
