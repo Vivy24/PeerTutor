@@ -5,7 +5,7 @@
     1. Clone this project
     2. Run 'npm install'
     3. Run 'cd client'
-    4. Run 'npm install --force'
+    4. Run 'npm install'
     5. Run 'cd ..'
     6. Run 'npm run dev'
     7. The website will run on your http://localhost:3000/
