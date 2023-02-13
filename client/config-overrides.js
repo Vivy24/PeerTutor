@@ -1,4 +1,4 @@
-const webpack = require("webpack");
+const webpack = require("webpack")
 
 module.exports = function override(config, env) {
   config.resolve.fallback = {
@@ -9,14 +9,15 @@ module.exports = function override(config, env) {
     stream: require.resolve("stream-browserify"),
     path: require.resolve("path-browserify"),
     url: require.resolve("url"),
-  };
+    "process/browser": require.resolve("process/browser"),
+  }
 
   config.plugins.push(
     new webpack.ProvidePlugin({
       process: "process/browser",
       Buffer: ["buffer", "Buffer"],
     })
-  );
+  )
 
-  return config;
-};
+  return config
+}
