@@ -1,12 +1,12 @@
-import { useValidInput } from "../../helpers/hooks/useValidInput";
-import { Button, Form, Card } from "react-bootstrap";
-import { Fragment, useState } from "react";
-import axios from "axios";
+import { useValidInput } from "../../helpers/hooks/useValidInput"
+import { Button, Form, Card } from "react-bootstrap"
+import { Fragment, useState } from "react"
+import axiosConfig from "../../axiosconfig"
 
-import styles from "../../public/styles/button.module.css";
+import styles from "../../public/styles/button.module.css"
 const RegisterAdmin = ({ users }) => {
-  const [error, setError] = useState();
-  const [result, setResult] = useState();
+  const [error, setError] = useState()
+  const [result, setResult] = useState()
   const {
     value: enteredEmail,
     empty: enteredEmailEmpty,
@@ -15,42 +15,45 @@ const RegisterAdmin = ({ users }) => {
     reset: resetEmail,
   } = useValidInput(() => {
     /*doing nothing on purpose*/
-  });
+  })
 
   const submitForm = async (event) => {
-    event.preventDefault();
-    setResult();
-    setError();
+    event.preventDefault()
+    setResult()
+    setError()
     if (enteredEmailEmpty) {
-      return;
+      return
     }
 
     const config = {
       headers: {
         "Content-Type": "application/json",
       },
-    };
+    }
 
     const submitEmail = {
       email: enteredEmail,
-    };
-    const body = JSON.stringify(submitEmail);
+    }
+    const body = JSON.stringify(submitEmail)
     try {
-      const res = await axios.post("/api/admins", body, config);
+      const res = await axiosConfig.post("/api/admins", body, config)
       if (res.status === 200) {
-        setResult("Promoted successfully");
+        setResult("Promoted successfully")
       }
     } catch (error) {
-      setError(error.response.data.errors[0].msg);
+      setError(error.response.data.errors[0].msg)
 
-      console.log(error);
+      console.log(error)
     }
 
-    resetEmail();
-  };
+    resetEmail()
+  }
   return (
     <Fragment>
-      <Card className="w-75 mx-auto mt-4  pt-2" style={{ maxWidth: "600px" }}>
+      <Card
+        className="w-75 mx-auto mt-4  pt-2"
+        style={{ maxWidth: "600px" }}
+      >
         {error && (
           <p className="bg-danger text-white mx-auto w-75 text-center">
             {error}
@@ -71,8 +74,14 @@ const RegisterAdmin = ({ users }) => {
           Promote to admin
         </h4>
 
-        <Form className="w-75 mx-auto mt-3 mb-5" onSubmit={submitForm}>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form
+          className="w-75 mx-auto mt-3 mb-5"
+          onSubmit={submitForm}
+        >
+          <Form.Group
+            className="mb-3"
+            controlId="formBasicEmail"
+          >
             <Form.Label>Email address</Form.Label>
 
             <input
@@ -91,7 +100,7 @@ const RegisterAdmin = ({ users }) => {
             <datalist id="sadmin">
               {users.length > 0 &&
                 users.map((user) => {
-                  return <option value={user}></option>;
+                  return <option value={user}></option>
                 })}
             </datalist>
 
@@ -112,7 +121,7 @@ const RegisterAdmin = ({ users }) => {
         </Form>
       </Card>
     </Fragment>
-  );
-};
+  )
+}
 
-export default RegisterAdmin;
+export default RegisterAdmin

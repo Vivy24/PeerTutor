@@ -1,14 +1,14 @@
-import { Form, Container, Card, Button } from "react-bootstrap";
-import { useValidInput } from "../helpers/hooks/useValidInput";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-import { useState } from "react";
+import { Form, Container, Card, Button } from "react-bootstrap"
+import { useValidInput } from "../helpers/hooks/useValidInput"
+import { useParams } from "react-router-dom"
+import axiosConfig from "../axiosconfig"
+import { useState } from "react"
 
-import styles from "../public/styles/button.module.css";
+import styles from "../public/styles/button.module.css"
 const ResetPasswordPage = () => {
-  const [result, setResult] = useState("");
-  const [error, setError] = useState("");
-  const params = useParams();
+  const [result, setResult] = useState("")
+  const [error, setError] = useState("")
+  const params = useParams()
 
   const {
     value: enteredPassword,
@@ -20,8 +20,8 @@ const ResetPasswordPage = () => {
   } = useValidInput((value) => {
     return /^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/.test(
       value
-    );
-  });
+    )
+  })
 
   const {
     value: enteredCPassword,
@@ -31,14 +31,14 @@ const ResetPasswordPage = () => {
     inputBlurHandler: cPasswordBlurHandler,
     reset: resetcPassword,
   } = useValidInput((value) => {
-    return value === enteredPassword;
-  });
+    return value === enteredPassword
+  })
 
   const submitForm = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
-    const id = params.id;
-    const token = params.token;
+    const id = params.id
+    const token = params.token
 
     if (
       enteredPasswordEmpty ||
@@ -46,35 +46,39 @@ const ResetPasswordPage = () => {
       enteredCPasswordEmpty ||
       cPasswordHasError
     ) {
-      return;
+      return
     }
 
     const config = {
       headers: {
         "Content-Type": "application/json",
       },
-    };
+    }
     const resetPassword = {
       userId: id,
       token,
       password: enteredCPassword,
-    };
-    const body = JSON.stringify(resetPassword);
+    }
+    const body = JSON.stringify(resetPassword)
     try {
-      const res = await axios.post("/api/forgetpassword/reset", body, config);
-      console.log(res);
+      const res = await axiosConfig.post(
+        "/api/forgetpassword/reset",
+        body,
+        config
+      )
+      console.log(res)
       if (res.status === 200) {
-        setResult("Reset Password Successfully!");
-        setError("");
+        setResult("Reset Password Successfully!")
+        setError("")
       }
     } catch (error) {
-      setError(error.response.data.errors[0].msg);
-      setResult("");
+      setError(error.response.data.errors[0].msg)
+      setResult("")
     }
 
-    resetPassword();
-    resetcPassword();
-  };
+    resetPassword()
+    resetcPassword()
+  }
 
   return (
     <Container>
@@ -89,17 +93,32 @@ const ResetPasswordPage = () => {
       </h2>
 
       {result ? (
-        <Form.Text className="ms-3 mt-1" style={{ color: "green" }}>
+        <Form.Text
+          className="ms-3 mt-1"
+          style={{ color: "green" }}
+        >
           {result}
         </Form.Text>
       ) : (
-        <Form.Text className="ms-3 mt-1" style={{ color: "red" }}>
+        <Form.Text
+          className="ms-3 mt-1"
+          style={{ color: "red" }}
+        >
           {error}
         </Form.Text>
       )}
-      <Card className="w-75 mx-auto mt-4" style={{ maxWidth: "600px" }}>
-        <Form className="w-75 mx-auto mt-3 mb-5" onSubmit={submitForm}>
-          <Form.Group className="mb-3" controlId="formBasicPassword">
+      <Card
+        className="w-75 mx-auto mt-4"
+        style={{ maxWidth: "600px" }}
+      >
+        <Form
+          className="w-75 mx-auto mt-3 mb-5"
+          onSubmit={submitForm}
+        >
+          <Form.Group
+            className="mb-3"
+            controlId="formBasicPassword"
+          >
             <Form.Label>New Password</Form.Label>
             <Form.Control
               value={enteredPassword}
@@ -119,7 +138,10 @@ const ResetPasswordPage = () => {
               </Form.Text>
             )}
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicCPassword">
+          <Form.Group
+            className="mb-3"
+            controlId="formBasicCPassword"
+          >
             <Form.Label>Confirm Your New Password</Form.Label>
             <Form.Control
               value={enteredCPassword}
@@ -148,7 +170,7 @@ const ResetPasswordPage = () => {
         </Form>
       </Card>
     </Container>
-  );
-};
+  )
+}
 
-export default ResetPasswordPage;
+export default ResetPasswordPage

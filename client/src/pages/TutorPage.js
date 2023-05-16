@@ -1,79 +1,82 @@
-import { Container, Button } from "react-bootstrap";
-import Tutor from "../components/tutor/Tutor";
-import button from "../public/styles/button.module.css";
-import { useEffect, useState, Fragment } from "react";
-import { fetchTutor } from "../store/tutorActions";
-import { useDispatch, useSelector } from "react-redux";
-import { tutorActions } from "../store/tutor";
-import axios from "axios";
+import { Container, Button } from "react-bootstrap"
+import Tutor from "../components/tutor/Tutor"
+import button from "../public/styles/button.module.css"
+import { useEffect, useState, Fragment } from "react"
+import { fetchTutor } from "../store/tutorActions"
+import { useDispatch, useSelector } from "react-redux"
+import { tutorActions } from "../store/tutor"
+import axiosConfig from "../axiosconfig"
 
 const TutorPage = () => {
-  const dispatch = useDispatch();
-  const tutors = useSelector((state) => state.tutor);
-  const errors = useSelector((state) => state.error);
+  const dispatch = useDispatch()
+  const tutors = useSelector((state) => state.tutor)
+  const errors = useSelector((state) => state.error)
 
-  const [departments, setDepartments] = useState([]);
-  const [subjects, setSubject] = useState([]);
+  const [departments, setDepartments] = useState([])
+  const [subjects, setSubject] = useState([])
 
-  const [searchingError, setSearchingError] = useState();
-
-  useEffect(() => {
-    dispatch(fetchTutor());
-  }, []);
+  const [searchingError, setSearchingError] = useState()
 
   useEffect(() => {
-    const departmentArray = [];
-    const subjectArray = [];
+    dispatch(fetchTutor())
+  }, [])
+
+  useEffect(() => {
+    const departmentArray = []
+    const subjectArray = []
     tutors.tutors.forEach((tutor) => {
       if (!departmentArray.includes(tutor.department) && tutor.department) {
-        departmentArray.push(tutor.department);
+        departmentArray.push(tutor.department)
       }
 
       if (!subjectArray.includes(tutor.subject) && tutor.subject) {
-        subjectArray.push(tutor.subject);
+        subjectArray.push(tutor.subject)
       }
-    });
+    })
 
-    setDepartments(departmentArray);
+    setDepartments(departmentArray)
 
-    setSubject(subjectArray);
-  }, [tutors]);
+    setSubject(subjectArray)
+  }, [tutors])
 
   const searching = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
-    const department = event.target.department.value;
-    const subject = event.target.subject.value;
+    const department = event.target.department.value
+    const subject = event.target.subject.value
 
     try {
       const config = {
         headers: {
           "Content-Type": "application/json",
         },
-      };
+      }
 
       const searchForm = {
         department,
         subject,
-      };
+      }
 
-      const body = JSON.stringify(searchForm);
+      const body = JSON.stringify(searchForm)
 
-      await axios.post("/api/tutors/search", body, config).then((res) => {
+      await axiosConfig.post("/api/tutors/search", body, config).then((res) => {
         dispatch(
           tutorActions.fetchAllTutor({
             tutors: res.data,
           })
-        );
-      });
+        )
+      })
     } catch (error) {
-      setSearchingError(error.response.data.errors[0].msg);
+      setSearchingError(error.response.data.errors[0].msg)
     }
-  };
+  }
 
   return (
     <Container>
-      <form onSubmit={searching} className="mt-4">
+      <form
+        onSubmit={searching}
+        className="mt-4"
+      >
         <div>
           <label
             className="ms-3 me-2"
@@ -93,30 +96,42 @@ const TutorPage = () => {
           <datalist id="departments">
             {departments.length > 0 &&
               departments.map((department) => {
-                return <option value={department}></option>;
+                return <option value={department}></option>
               })}
           </datalist>
         </div>
         <div className="mt-1">
-          <label className="ms-3 me-2" for="subject" style={{ width: "85px" }}>
+          <label
+            className="ms-3 me-2"
+            for="subject"
+            style={{ width: "85px" }}
+          >
             Subject:
           </label>
-          <input list="subjects" name="subject" id="subject" required />
+          <input
+            list="subjects"
+            name="subject"
+            id="subject"
+            required
+          />
           <datalist id="subjects">
             {subjects.length > 0 &&
               subjects.map((subject) => {
-                return <option value={subject}></option>;
+                return <option value={subject}></option>
               })}
           </datalist>
         </div>
 
-        <Button className={`${button.rightBtn} ms-3 mt-1`} type="submit">
+        <Button
+          className={`${button.rightBtn} ms-3 mt-1`}
+          type="submit"
+        >
           Search
         </Button>
       </form>
       {errors &&
       errors.errors.filter((error) => {
-        return error.type == "fetchTutor";
+        return error.type == "fetchTutor"
       }).length > 0 ? (
         <h3>We do not have any tutors</h3>
       ) : searchingError ? (
@@ -126,8 +141,8 @@ const TutorPage = () => {
             <Button
               className={`${button.leftBtn} mt-3`}
               onClick={function () {
-                dispatch(fetchTutor());
-                setSearchingError("");
+                dispatch(fetchTutor())
+                setSearchingError("")
               }}
             >
               Reload All Tutors!
@@ -152,13 +167,13 @@ const TutorPage = () => {
                     subject={tutor.subject}
                   />
                 </div>
-              );
+              )
             })}
           </div>
         )
       )}
     </Container>
-  );
-};
+  )
+}
 
-export default TutorPage;
+export default TutorPage

@@ -1,18 +1,18 @@
-import axios from "axios";
-import { useDispatch } from "react-redux";
-import { Rating } from "react-simple-star-rating";
-import { useState, Fragment } from "react";
-import { Button, Form } from "react-bootstrap";
-import button from "../../public/styles/button.module.css";
-import { useValidInput } from "../../helpers/hooks/useValidInput";
-import { fetchReviews } from "../../store/reviewAction";
+import axiosConfig from "../../axiosconfig"
+import { useDispatch } from "react-redux"
+import { Rating } from "react-simple-star-rating"
+import { useState, Fragment } from "react"
+import { Button, Form } from "react-bootstrap"
+import button from "../../public/styles/button.module.css"
+import { useValidInput } from "../../helpers/hooks/useValidInput"
+import { fetchReviews } from "../../store/reviewAction"
 
-import styles from "../../public/styles/reviewForm.module.css";
+import styles from "../../public/styles/reviewForm.module.css"
 const ReviewForm = ({ tutor, reviewer }) => {
-  const [rating, setRating] = useState();
-  const [error, setError] = useState();
-  const [success, setSuccess] = useState();
-  const dispatch = useDispatch();
+  const [rating, setRating] = useState()
+  const [error, setError] = useState()
+  const [success, setSuccess] = useState()
+  const dispatch = useDispatch()
 
   const {
     value: enteredContent,
@@ -21,64 +21,64 @@ const ReviewForm = ({ tutor, reviewer }) => {
     reset: resetContent,
   } = useValidInput((value) => {
     // doing nothing on purpose
-  });
+  })
   const handleRating = (rate) => {
     switch (rate) {
       case 20:
-        setRating(1);
-        break;
+        setRating(1)
+        break
       case 40:
-        setRating(2);
-        break;
+        setRating(2)
+        break
       case 60:
-        setRating(3);
-        break;
+        setRating(3)
+        break
       case 80:
-        setRating(4);
-        break;
+        setRating(4)
+        break
       case 100:
-        setRating(5);
-        break;
+        setRating(5)
+        break
       default:
-        setRating(0);
+        setRating(0)
     }
-  };
+  }
 
   const sendAReview = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
     if (rating == 0) {
-      return;
+      return
     }
     const config = {
       headers: {
         "Content-Type": "application/json",
       },
-    };
+    }
 
     const review = {
       tutorID: tutor.id,
       reviewerID: reviewer.id,
       content: enteredContent,
       rating: rating,
-    };
-
-    const body = JSON.stringify(review);
-    try {
-      await axios.post("/api/reviews", body, config).then(async (res) => {
-        if (res.status === 200) {
-          await dispatch(fetchReviews(tutor.id));
-          setSuccess("Your review has been recorded");
-          setError("");
-        }
-      });
-    } catch (error) {
-      setSuccess("");
-      setError(error.response.data.errors[0].msg);
     }
 
-    resetContent();
-  };
+    const body = JSON.stringify(review)
+    try {
+      await axiosConfig.post("/api/reviews", body, config).then(async (res) => {
+        if (res.status === 200) {
+          await dispatch(fetchReviews(tutor.id))
+          setSuccess("Your review has been recorded")
+          setError("")
+        }
+      })
+    } catch (error) {
+      setSuccess("")
+      setError(error.response.data.errors[0].msg)
+    }
+
+    resetContent()
+  }
 
   return (
     <Fragment>
@@ -115,7 +115,7 @@ const ReviewForm = ({ tutor, reviewer }) => {
         </Button>
       </form>
     </Fragment>
-  );
-};
+  )
+}
 
-export default ReviewForm;
+export default ReviewForm

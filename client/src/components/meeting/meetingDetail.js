@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { FaCheck, FaTimes } from "react-icons/fa";
-import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react"
+import { FaCheck, FaTimes } from "react-icons/fa"
+import axiosConfig from "../../axiosconfig"
+import { useDispatch } from "react-redux"
 import {
   fetchTutorMeeting,
   fetchStudentMeeting,
-} from "../../store/meetingActions";
+} from "../../store/meetingActions"
 const MeetingDetail = ({
   date,
   name,
@@ -16,47 +16,47 @@ const MeetingDetail = ({
   tutor,
   status,
 }) => {
-  const [dateString, setDateString] = useState("");
-  const dispatch = useDispatch();
+  const [dateString, setDateString] = useState("")
+  const dispatch = useDispatch()
   useEffect(() => {
-    const fisishedDate = new Date(date);
+    const fisishedDate = new Date(date)
 
-    let dateString = "";
-    dateString += `${fisishedDate.getFullYear()}-`;
+    let dateString = ""
+    dateString += `${fisishedDate.getFullYear()}-`
 
     if (fisishedDate.getMonth() + 1 < 10) {
-      dateString += "0";
+      dateString += "0"
     }
-    dateString += fisishedDate.getMonth() + 1;
-    dateString += "-";
+    dateString += fisishedDate.getMonth() + 1
+    dateString += "-"
     if (fisishedDate.getDate < 10) {
-      dateString += "0";
+      dateString += "0"
     }
 
-    dateString += fisishedDate.getDate();
-    dateString += `\n at ${fisishedDate.getHours()}:00`;
+    dateString += fisishedDate.getDate()
+    dateString += `\n at ${fisishedDate.getHours()}:00`
 
-    setDateString(dateString);
-  }, []);
+    setDateString(dateString)
+  }, [])
   const finishMeeting = async () => {
     const config = {
       headers: {
         "Content-Type": "application/json",
       },
-    };
+    }
 
     const meetingID = {
       meetingID: id,
-    };
-    const body = JSON.stringify(meetingID);
+    }
+    const body = JSON.stringify(meetingID)
 
     try {
-      await axios.put("/api/meetings/approve", body, config);
+      await axiosConfig.put("/api/meetings/approve", body, config)
     } catch (e) {
-      console.log(e);
+      console.log(e)
     }
-    dispatch(fetchTutorMeeting());
-  };
+    dispatch(fetchTutorMeeting())
+  }
 
   const deleteMeeting = async () => {
     // chanbge status of meeting from booked to deleted !
@@ -64,24 +64,24 @@ const MeetingDetail = ({
       headers: {
         "Content-Type": "application/json",
       },
-    };
+    }
 
     const meetingID = {
       meetingID: id,
-    };
-    const body = JSON.stringify(meetingID);
+    }
+    const body = JSON.stringify(meetingID)
 
     try {
-      await axios.put("/api/meetings/delete", body, config);
+      await axiosConfig.put("/api/meetings/delete", body, config)
     } catch (e) {
-      console.log(e);
+      console.log(e)
     }
     if (tutor) {
-      dispatch(fetchTutorMeeting());
+      dispatch(fetchTutorMeeting())
     } else {
-      dispatch(fetchStudentMeeting());
+      dispatch(fetchStudentMeeting())
     }
-  };
+  }
 
   return (
     <tr>
@@ -128,7 +128,7 @@ const MeetingDetail = ({
         )}
       </td>
     </tr>
-  );
-};
+  )
+}
 
-export default MeetingDetail;
+export default MeetingDetail

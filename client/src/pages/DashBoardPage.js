@@ -1,39 +1,39 @@
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { Container } from "react-bootstrap";
-import DemoteAdmin from "../components/admin/demoteAdmin";
-import RegisterAdmin from "../components/admin/registerAdmin";
-import Request from "../components/admin/request";
-import { FaArrowLeft } from "react-icons/fa";
-import { fetchRequests } from "../store/tutorActions";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useSelector, useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import { Container } from "react-bootstrap"
+import DemoteAdmin from "../components/admin/demoteAdmin"
+import RegisterAdmin from "../components/admin/registerAdmin"
+import Request from "../components/admin/request"
+import { FaArrowLeft } from "react-icons/fa"
+import { fetchRequests } from "../store/tutorActions"
+import { useEffect, useState } from "react"
+import axiosConfig from "../axiosconfig"
 
 const DashBoardPage = () => {
-  const [user, setUser] = useState([]);
-  const [error, setError] = useState();
-  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState([])
+  const [error, setError] = useState()
+  const [loading, setLoading] = useState(false)
 
-  const auth = useSelector((state) => state.auth);
-  const tutorSlice = useSelector((state) => state.tutor);
-  const requests = tutorSlice.requests;
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  console.log(auth);
+  const auth = useSelector((state) => state.auth)
+  const tutorSlice = useSelector((state) => state.tutor)
+  const requests = tutorSlice.requests
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  console.log(auth)
 
   useEffect(() => {
     if (!auth.loading) {
-      setLoading(true);
+      setLoading(true)
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
-    dispatch(fetchRequests());
-  }, [loading]);
+    dispatch(fetchRequests())
+  }, [loading])
   useEffect(() => {
     if (loading) {
       if (!auth.loading && !auth.isAuthenticated) {
-        navigate("/");
+        navigate("/")
       }
 
       if (
@@ -41,26 +41,26 @@ const DashBoardPage = () => {
         auth.user.role !== "Admin" &&
         auth.user.role !== "SAdmin"
       ) {
-        navigate("/");
+        navigate("/")
       }
     }
-  }, [loading]);
+  }, [loading])
   useEffect(() => {
     if (loading) {
       const getUser = async () => {
         try {
-          const res = await axios.get("/api/meetings/tutor");
-          setUser(res.data);
+          const res = await axiosConfig.get("/api/meetings/tutor")
+          setUser(res.data)
         } catch (error) {
-          console.error(error);
-          setError(error);
+          console.error(error)
+          setError(error)
         }
-      };
+      }
       if (auth.user.role === "SAdmin") {
-        getUser();
+        getUser()
       }
     }
-  }, [auth, loading]);
+  }, [auth, loading])
   return (
     <Container>
       <button
@@ -99,7 +99,7 @@ const DashBoardPage = () => {
                         subject={request.subject}
                         id={request.id}
                       />
-                    );
+                    )
                   })}
                 </tbody>
               </table>
@@ -109,7 +109,7 @@ const DashBoardPage = () => {
         </div>
       </div>
     </Container>
-  );
-};
+  )
+}
 
-export default DashBoardPage;
+export default DashBoardPage

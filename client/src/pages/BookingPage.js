@@ -3,115 +3,115 @@ import {
   Spinner,
   ToggleButtonGroup,
   ToggleButton,
-} from "react-bootstrap";
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { FaArrowLeft, FaStar, FaStarHalf } from "react-icons/fa";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchReviews } from "../store/reviewAction";
+} from "react-bootstrap"
+import { useEffect, useState } from "react"
+import { useParams, useNavigate } from "react-router-dom"
+import axiosConfig from "../axiosconfig"
+import { FaArrowLeft, FaStar, FaStarHalf } from "react-icons/fa"
+import { useSelector, useDispatch } from "react-redux"
+import { fetchReviews } from "../store/reviewAction"
 
 // components
-import DayBooking from "../components/booking/dayBooking";
-import MonthBooking from "../components/booking/monthBooking";
-import ReviewSection from "../components/review/reviewSection";
+import DayBooking from "../components/booking/dayBooking"
+import MonthBooking from "../components/booking/monthBooking"
+import ReviewSection from "../components/review/reviewSection"
 
 const BookingPage = () => {
-  const [tutor, setTutor] = useState();
-  const [dailyBooked, setDailyBooked] = useState(true);
-  const [meetings, setPendingMeetings] = useState();
-  const [average, setAverage] = useState();
-  const [loading, setLoading] = useState(false);
+  const [tutor, setTutor] = useState()
+  const [dailyBooked, setDailyBooked] = useState(true)
+  const [meetings, setPendingMeetings] = useState()
+  const [average, setAverage] = useState()
+  const [loading, setLoading] = useState(false)
 
-  const params = useParams();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const params = useParams()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-  const auth = useSelector((state) => state.auth);
-  const review = useSelector((state) => state.review);
+  const auth = useSelector((state) => state.auth)
+  const review = useSelector((state) => state.review)
 
   useEffect(() => {
     if (!auth.loading) {
-      setLoading(true);
+      setLoading(true)
     }
-  }, [auth.loading]);
+  }, [auth.loading])
 
   useEffect(() => {
     if (loading) {
       const getTutor = async () => {
         try {
-          const res = await axios.get(`/api/tutors/${params.tutorID}`);
-          setTutor(res.data);
+          const res = await axiosConfig.get(`/api/tutors/${params.tutorID}`)
+          setTutor(res.data)
         } catch (error) {
-          console.error(error);
+          console.error(error)
         }
-      };
+      }
 
-      getTutor();
+      getTutor()
     }
-  }, [loading]);
+  }, [loading])
 
   useEffect(() => {
     if (loading && tutor) {
       const getPendingMeeting = async () => {
         try {
-          const meetings = await axios.get(
+          const meetings = await axiosConfig.get(
             `/api/meetings/pendingMeeting/${tutor.id}`
-          );
+          )
           if (meetings) {
-            setPendingMeetings(meetings.data);
+            setPendingMeetings(meetings.data)
           }
         } catch (e) {
-          console.error(e);
+          console.error(e)
         }
-      };
+      }
 
-      getPendingMeeting();
+      getPendingMeeting()
     }
-  }, [tutor, loading]);
+  }, [tutor, loading])
 
   useEffect(() => {
     if (loading && tutor) {
       const fetchReview = async (tutorID) => {
-        await dispatch(fetchReviews(tutorID));
-      };
+        await dispatch(fetchReviews(tutorID))
+      }
 
       if (tutor) {
-        fetchReview(tutor.id);
+        fetchReview(tutor.id)
       }
     }
-  }, [tutor, loading]);
+  }, [tutor, loading])
 
   useEffect(() => {
-    let numberof5Star = 0;
-    let numberof4Star = 0;
-    let numberof3Star = 0;
-    let numberof2Star = 0;
-    let numberof1Star = 0;
+    let numberof5Star = 0
+    let numberof4Star = 0
+    let numberof3Star = 0
+    let numberof2Star = 0
+    let numberof1Star = 0
 
     if (loading) {
       review.reviews.length > 0 &&
         review.reviews.forEach((review) => {
           switch (review.rating) {
             case 5:
-              numberof5Star += 1;
-              break;
+              numberof5Star += 1
+              break
             case 4:
-              numberof4Star += 1;
-              break;
+              numberof4Star += 1
+              break
             case 3:
-              numberof3Star += 1;
-              break;
+              numberof3Star += 1
+              break
             case 2:
-              numberof2Star += 1;
-              break;
+              numberof2Star += 1
+              break
             case 1:
-              numberof1Star += 1;
-              break;
+              numberof1Star += 1
+              break
             default:
-              break;
+              break
           }
-        });
+        })
 
       const average =
         (5 * numberof5Star +
@@ -123,27 +123,27 @@ const BookingPage = () => {
           numberof4Star +
           numberof3Star +
           numberof2Star +
-          numberof1Star);
+          numberof1Star)
 
-      setAverage(average);
+      setAverage(average)
     }
-  }, [review, loading]);
+  }, [review, loading])
 
   // run when chooseMonth change to see slot time available from api
 
   const openDailyBooked = () => {
-    setDailyBooked(true);
-    setPendingMeetings([]);
-  };
+    setDailyBooked(true)
+    setPendingMeetings([])
+  }
 
   const resetMeetings = () => {
-    setPendingMeetings([]);
-  };
+    setPendingMeetings([])
+  }
 
   const openMonthlyBooked = () => {
-    setDailyBooked(false);
-    setPendingMeetings([]);
-  };
+    setDailyBooked(false)
+    setPendingMeetings([])
+  }
 
   return tutor ? (
     <Container>
@@ -271,13 +271,16 @@ const BookingPage = () => {
           </div>
         </div>
         <div className="col-12 col-lg-5">
-          <ReviewSection tutor={tutor} reviewer={auth.user} />
+          <ReviewSection
+            tutor={tutor}
+            reviewer={auth.user}
+          />
         </div>
       </div>
     </Container>
   ) : (
     <Spinner></Spinner>
-  );
-};
+  )
+}
 
-export default BookingPage;
+export default BookingPage

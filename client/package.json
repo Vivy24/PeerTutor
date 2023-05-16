@@ -2,6 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@babel/preset-react": "^7.16.7",
     "@mooncake-dev/react-day-time-picker": "^1.0.5",
@@ -48,5 +49,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://127.0.0.1:8000/"
+  "proxy": "https://peertutor.onrender.com/"
 }

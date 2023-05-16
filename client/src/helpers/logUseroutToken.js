@@ -1,13 +1,13 @@
-import axios from "axios";
-import store from "../store/index";
-import { authActions } from "../store/auth";
-// Create an instance of axios
-const api = axios.create({
+import axiosConfig from "../axiosconfig"
+import store from "../store/index"
+import { authActions } from "../store/auth"
+// Create an instance of axiosConfig
+const api = axiosConfig.create({
   baseURL: "/api",
   headers: {
     "Content-Type": "application/json",
   },
-});
+})
 /*
   NOTE: intercept any error responses from the api
  and check if the token is no longer valid.
@@ -20,10 +20,10 @@ api.interceptors.response.use(
   (res) => res,
   (err) => {
     if (err.response.status === 401) {
-      store.dispatch(authActions.log_out());
+      store.dispatch(authActions.log_out())
     }
-    return Promise.reject(err);
+    return Promise.reject(err)
   }
-);
+)
 
-export default api;
+export default api

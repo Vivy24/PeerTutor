@@ -1,20 +1,20 @@
-import { Container, Card, Form, Button } from "react-bootstrap";
-import { useValidInput } from "../helpers/hooks/useValidInput";
-import styles from "../public/styles/button.module.css";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { addError } from "../store/errorActions";
-import { errorActions } from "../store/error";
-import { useState } from "react";
-import { FaArrowLeft } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Container, Card, Form, Button } from "react-bootstrap"
+import { useValidInput } from "../helpers/hooks/useValidInput"
+import styles from "../public/styles/button.module.css"
+import axiosConfig from "../axiosconfig"
+import { useDispatch, useSelector } from "react-redux"
+import { addError } from "../store/errorActions"
+import { errorActions } from "../store/error"
+import { useState } from "react"
+import { FaArrowLeft } from "react-icons/fa"
+import { useNavigate } from "react-router-dom"
 
 const RequestForm = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const error = useSelector((state) => state.error);
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const error = useSelector((state) => state.error)
 
-  const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState(false)
   const {
     value: enteredDepartment,
     empty: enteredDepartmentEmpty,
@@ -23,7 +23,7 @@ const RequestForm = () => {
     reset: resetDepartment,
   } = useValidInput(() => {
     /*doing nothing on purpose*/
-  });
+  })
 
   const {
     value: enteredSubject,
@@ -33,45 +33,45 @@ const RequestForm = () => {
     reset: resetSubject,
   } = useValidInput(() => {
     /*doing nothing on purpose*/
-  });
+  })
 
   const submitForm = async (event) => {
-    event.preventDefault();
-    dispatch(errorActions.resetState());
+    event.preventDefault()
+    dispatch(errorActions.resetState())
     if (enteredDepartmentEmpty || enteredSubjectEmpty) {
-      return;
+      return
     }
 
     const config = {
       headers: {
         "Content-Type": "application/json",
       },
-    };
+    }
 
     const tutorRequest = {
       subject: enteredSubject,
       department: enteredDepartment,
-    };
+    }
 
-    const body = JSON.stringify(tutorRequest);
+    const body = JSON.stringify(tutorRequest)
 
     try {
-      await axios.post("/api/requests", body, config);
-      setSuccess(true);
+      await axiosConfig.post("/api/requests", body, config)
+      setSuccess(true)
     } catch (error) {
-      const errors = error.response.data.errors;
+      const errors = error.response.data.errors
       if (errors.length > 0) {
         errors.forEach((error) => {
-          dispatch(addError(error.msg, "request"));
-        });
+          dispatch(addError(error.msg, "request"))
+        })
       }
     }
 
     // submit the form;
 
-    resetDepartment();
-    resetSubject();
-  };
+    resetDepartment()
+    resetSubject()
+  }
 
   return (
     <Container>
@@ -92,7 +92,10 @@ const RequestForm = () => {
       >
         Request to be a tutor
       </h2>
-      <Card className="w-75 mx-auto mt-4" style={{ maxWidth: "600px" }}>
+      <Card
+        className="w-75 mx-auto mt-4"
+        style={{ maxWidth: "600px" }}
+      >
         {error &&
           error.errors.map((error) => {
             return (
@@ -103,16 +106,25 @@ const RequestForm = () => {
               >
                 {error.msg}
               </Form.Text>
-            );
+            )
           })}
 
         {success && error.errors.length === 0 && (
-          <Form.Text className="ms-3 mt-1" style={{ color: "blue" }}>
+          <Form.Text
+            className="ms-3 mt-1"
+            style={{ color: "blue" }}
+          >
             Successfully Requested
           </Form.Text>
         )}
-        <Form className="w-75 mx-auto my-5" onSubmit={submitForm}>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form
+          className="w-75 mx-auto my-5"
+          onSubmit={submitForm}
+        >
+          <Form.Group
+            className="mb-3"
+            controlId="formBasicEmail"
+          >
             <Form.Label>Department</Form.Label>
             <Form.Control
               value={enteredDepartment}
@@ -128,7 +140,10 @@ const RequestForm = () => {
             )}
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Group
+            className="mb-3"
+            controlId="formBasicPassword"
+          >
             <Form.Label>Subject</Form.Label>
             <Form.Control
               value={enteredSubject}
@@ -154,7 +169,7 @@ const RequestForm = () => {
         </Form>
       </Card>
     </Container>
-  );
-};
+  )
+}
 
-export default RequestForm;
+export default RequestForm

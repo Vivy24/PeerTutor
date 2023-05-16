@@ -1,28 +1,30 @@
-import axios from "axios";
-import { useState, Fragment } from "react";
-import { fetchRequests } from "../../store/tutorActions";
-import { useDispatch } from "react-redux";
+import axiosConfig from "../../axiosconfig"
+import { useState, Fragment } from "react"
+import { fetchRequests } from "../../store/tutorActions"
+import { useDispatch } from "react-redux"
 const Request = ({ email, subject, department, id }) => {
-  const [error, setError] = useState();
-  const dispatch = useDispatch();
+  const [error, setError] = useState()
+  const dispatch = useDispatch()
   const approveReq = async (event) => {
     try {
-      await axios.post(`api/requests/approve/${event.target.value}`);
-      dispatch(fetchRequests());
+      await axiosConfig.post(`api/requests/approve/${event.target.value}`)
+      dispatch(fetchRequests())
     } catch (error) {
-      setError(error);
+      setError(error)
     }
-  };
+  }
 
   const deleteReq = async (event) => {
     try {
-      const res = await axios.delete(`/api/requests/${event.target.value}`);
+      const res = await axiosConfig.delete(
+        `/api/requests/${event.target.value}`
+      )
 
-      dispatch(fetchRequests());
+      dispatch(fetchRequests())
     } catch (error) {
-      setError(error);
+      setError(error)
     }
-  };
+  }
   return (
     <Fragment>
       {error && (
@@ -70,7 +72,7 @@ const Request = ({ email, subject, department, id }) => {
         </td>
       </tr>
     </Fragment>
-  );
-};
+  )
+}
 
-export default Request;
+export default Request

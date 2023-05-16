@@ -1,13 +1,13 @@
-import { Container, Card, Form, Button } from "react-bootstrap";
-import { useValidInput } from "../helpers/hooks/useValidInput";
-import { useState } from "react";
+import { Container, Card, Form, Button } from "react-bootstrap"
+import { useValidInput } from "../helpers/hooks/useValidInput"
+import { useState } from "react"
 
-import styles from "../public/styles/button.module.css";
-import axios from "axios";
+import styles from "../public/styles/button.module.css"
+import axiosConfig from "../axiosconfig"
 
 const ForgetPassword = () => {
-  const [result, setResult] = useState("");
-  const [error, setError] = useState("");
+  const [result, setResult] = useState("")
+  const [error, setError] = useState("")
   const {
     value: enteredEmail,
     empty: enteredEmailEmpty,
@@ -16,34 +16,34 @@ const ForgetPassword = () => {
     reset: resetEmail,
   } = useValidInput(() => {
     /*doing nothing on purpose*/
-  });
+  })
 
   const resetPassword = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
     const config = {
       headers: {
         "Content-Type": "application/json",
       },
-    };
+    }
 
     const submitEmail = {
       email: enteredEmail,
-    };
-    const body = JSON.stringify(submitEmail);
+    }
+    const body = JSON.stringify(submitEmail)
     try {
-      const res = await axios.post("/api/forgetpassword", body, config);
-      console.log(res);
+      const res = await axiosConfig.post("/api/forgetpassword", body, config)
+      console.log(res)
       if (res.status === 200) {
-        setResult("Reset Email Sent Successfully!");
-        setError("");
+        setResult("Reset Email Sent Successfully!")
+        setError("")
       }
     } catch (error) {
-      setError(error.response.data.errors[0].msg);
-      setResult("");
+      setError(error.response.data.errors[0].msg)
+      setResult("")
     }
 
-    resetEmail();
-  };
+    resetEmail()
+  }
 
   return (
     <Container>
@@ -56,19 +56,34 @@ const ForgetPassword = () => {
       >
         Forget Password
       </h2>
-      <Card className="w-75 mx-auto mt-4" style={{ maxWidth: "600px" }}>
+      <Card
+        className="w-75 mx-auto mt-4"
+        style={{ maxWidth: "600px" }}
+      >
         {result ? (
-          <Form.Text className="ms-3 mt-1" style={{ color: "green" }}>
+          <Form.Text
+            className="ms-3 mt-1"
+            style={{ color: "green" }}
+          >
             {result}
           </Form.Text>
         ) : (
-          <Form.Text className="ms-3 mt-1" style={{ color: "red" }}>
+          <Form.Text
+            className="ms-3 mt-1"
+            style={{ color: "red" }}
+          >
             {error}
           </Form.Text>
         )}
 
-        <Form className="w-75 mx-auto my-5" onSubmit={resetPassword}>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form
+          className="w-75 mx-auto my-5"
+          onSubmit={resetPassword}
+        >
+          <Form.Group
+            className="mb-3"
+            controlId="formBasicEmail"
+          >
             <Form.Label>Email address</Form.Label>
             <Form.Control
               value={enteredEmail}
@@ -94,7 +109,7 @@ const ForgetPassword = () => {
         </Form>
       </Card>
     </Container>
-  );
-};
+  )
+}
 
-export default ForgetPassword;
+export default ForgetPassword
