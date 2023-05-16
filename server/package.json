@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node server.js",
-    "build": "cd client && npm run build",
+    "build": "cd 'client' && npm run build",
     "server": "nodemon server.js --ignore client",
     "test": "echo \"Error: no test specified\" && exit 1",
     "client": "npm start --prefix ../client",
