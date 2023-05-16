@@ -1,35 +1,35 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./helpers/logUseroutToken";
-import { Route, Routes } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import "bootstrap/dist/css/bootstrap.min.css"
+import "./helpers/logUseroutToken"
+import { Route, Routes } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { useEffect } from "react"
 
-import Header from "./components/Header";
-import LandingPage from "./pages/landingPage";
-import RegisterPage from "./pages/RegisterPage";
-import TutorPage from "./pages/TutorPage";
-import LoginPage from "./pages/LoginPage";
-import BookingPage from "./pages/BookingPage";
-import DashBoardPage from "./pages/DashBoardPage";
-import StudentMeetingPage from "./pages/StudentMeetingPage";
-import TutorMeetingPage from "./pages/TutorMeetingPage";
-import ProfilePage from "./pages/ProfilePage";
-import ForgetPassword from "./pages/ForgetPassword";
-import ResetPasswordPage from "./pages/ResetPasswordPage";
+import Header from "./components/Header"
+import LandingPage from "./pages/landingPage"
+import RegisterPage from "./pages/RegisterPage"
+import TutorPage from "./pages/TutorPage"
+import LoginPage from "./pages/LoginPage"
+import BookingPage from "./pages/BookingPage"
+import DashBoardPage from "./pages/DashBoardPage"
+import StudentMeetingPage from "./pages/StudentMeetingPage"
+import TutorMeetingPage from "./pages/TutorMeetingPage"
+import ProfilePage from "./pages/ProfilePage"
+import ForgetPassword from "./pages/ForgetPassword"
+import ResetPasswordPage from "./pages/ResetPasswordPage"
 
-import Request from "./pages/RequestFormPage";
-import { RequireNormAuth, RequireNotLoggedIn } from "./router/PrivateRoute";
-import setAuthToken from "./helpers/setAuthToken";
-import { loadUser } from "./store/authActions";
+import Request from "./pages/RequestFormPage"
+import { RequireNormAuth, RequireNotLoggedIn } from "./router/PrivateRoute"
+import setAuthToken from "./helpers/setAuthToken"
+import { loadUser } from "./store/authActions"
 
 function App() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   if (localStorage.token) {
-    setAuthToken(localStorage.token);
+    setAuthToken(localStorage.token)
   }
   useEffect(() => {
-    dispatch(loadUser());
-  }, []);
+    dispatch(loadUser())
+  }, [])
 
   return (
     <div className="App">
@@ -121,7 +121,15 @@ function App() {
             </RequireNormAuth>
           }
         />
-        <Route exact path="/dashboard" element={<DashBoardPage />} />
+        <Route
+          exact
+          path="/dashboard"
+          element={
+            <RequireNormAuth>
+              <DashBoardPage />
+            </RequireNormAuth>
+          }
+        />
 
         <Route
           exact
@@ -164,10 +172,13 @@ function App() {
           }
         />
 
-        <Route path="*" element={<h3>Not found page</h3>} />
+        <Route
+          path="*"
+          element={<h3>Not found page</h3>}
+        />
       </Routes>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

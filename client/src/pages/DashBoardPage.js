@@ -79,7 +79,7 @@ const DashBoardPage = () => {
         )}
         <div class="col-12 col-lg-6">
           {auth.user &&
-            (auth.user.role === "Admin" || auth.user.role == "SAdmin") &&
+            (auth.user.role === "Admin" || auth.user.role === "SAdmin") &&
             (requests.length > 0 ? (
               <table class="table mt-5">
                 <thead>
