@@ -3,12 +3,16 @@ require("dotenv").config()
 const express = require("express")
 const app = express()
 const path = require("path")
-
+const cors = require("cors")
 const port = process.env.PORT || 8000
 app.use(express.static(path.join(__dirname, "client/build")))
 app.use(express.json())
 app.use(express.static(__dirname))
-
+app.use(
+  cors({
+    origin: "*",
+  })
+)
 app.use("/api/auth", require("./routes/api/auth"))
 app.use("/api/users", require("./routes/api/user"))
 app.use("/api/admins", require("./routes/api/admin"))
