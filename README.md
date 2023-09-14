@@ -1,7 +1,5 @@
 # PeerTutor - Book your tutor now
 
-# Live link: https://peer-tutor.vercel.app/
-
 # How To Start:
 
     1. Clone this project
