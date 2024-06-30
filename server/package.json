@@ -2,15 +2,15 @@
   "name": "mern",
   "version": "1.0.0",
   "description": "A mern tutorial",
-  "main": "server.js",
+  "main": "index.js",
   "engines": {
     "node": "^16.13.0",
     "npm": "^8.1.0"
   },
   "scripts": {
-    "start": "node server.js",
+    "start": "node index.js",
     "build": "cd .. && cd client && npm run build",
-    "server": "nodemon server.js --ignore client",
+    "server": "nodemon index.js --ignore client",
     "test": "echo \"Error: no test specified\" && exit 1",
     "client": "npm start --prefix ../client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
