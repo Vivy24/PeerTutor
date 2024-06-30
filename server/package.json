@@ -8,9 +8,9 @@
     "npm": "^8.1.0"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "node routes/api/index.js",
     "build": "cd .. && cd client && npm run build",
-    "server": "nodemon index.js --ignore client",
+    "server": "nodemon routes/api/index.js --ignore client",
     "test": "echo \"Error: no test specified\" && exit 1",
     "client": "npm start --prefix ../client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
